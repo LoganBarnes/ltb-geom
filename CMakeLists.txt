@@ -96,3 +96,18 @@ ltb_target_include_directories(
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>
 )
+ltb_target_compile_features(
+        ltb-geom
+        PRIVATE
+        cxx_std_17
+)
+set_target_properties(
+        ltb-geom
+        PROPERTIES
+        POSITION_INDEPENDENT_CODE ON
+        WINDOWS_EXPORT_ALL_SYMBOLS ON
+)
+
+if (LTB_GEOM_BUILD_APPS OR LTB_BUILD_ALL_APPS)
+    include(${CMAKE_CURRENT_LIST_DIR}/apps/CMakeLists.cmake)
+endif ()

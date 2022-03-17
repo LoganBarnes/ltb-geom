@@ -39,10 +39,9 @@ TEST_CASE_TEMPLATE("[ltb][geom][shapes] Box center", Box, Box2, Box3, DBox2, DBo
     }
 }
 
-TEST_CASE("[ltb][geom][shapes] Box dimensions") {
-    using Box                 = Box2;
+TEST_CASE_TEMPLATE("[ltb][geom][shapes] Box dimensions", Box, Box2, Box3, DBox2, DBox3) {
     using T                   = shape_type_t<Box>;
-    constexpr glm::length_t L = shape_dimensions_v<Box>;
+    constexpr auto L = shape_dimensions_v<Box>;
     using Vec                 = glm::vec<L, T>;
 
     constexpr auto zero_vec = Vec{0};
@@ -51,35 +50,26 @@ TEST_CASE("[ltb][geom][shapes] Box dimensions") {
     CHECK(dimensions(Box{}) == zero_vec);
     CHECK(dimensions(zero_box) == zero_vec);
 
+    auto min = Vec{0};
+    min.x    = 0;
+    min.y    = -2;
+
+    auto max = Vec{0};
+    min.x    = 0;
+    min.y    = +2;
+
+    auto dims = Vec{0};
+    min.x    = 0;
+    min.y    = +4;
+
     // "auto box, roll out!" - Optimus Prime
-    auto box = Box{make_zeroed_vec<L, T>(0, -2), make_zeroed_vec<L, T>(0, +2)};
-    CHECK(almost_equal(dimensions(box), make_zeroed_vec<L, T>(0, 4)));
+    auto box = Box{min, max};
+    CHECK(almost_equal(dimensions(box), dims));
 
     if constexpr (L == 3) {
         box = Box{Vec{-1, -2, -3}, Vec{3, 2, 1}};
         CHECK(almost_equal(dimensions(box), Vec{4}));
     }
 }
-
-//TEST_CASE_TEMPLATE("[ltb][geom][shapes] Box dimensions", Box, Box2, Box3, DBox2, DBox3) {
-//    using T                   = shape_type_t<Box>;
-//    constexpr glm::length_t L = shape_dimensions_v<Box>;
-//    using Vec                 = glm::vec<L, T>;
-//
-//    constexpr auto zero_vec = Vec{0};
-//    constexpr auto zero_box = Box{zero_vec, zero_vec};
-//
-//    CHECK(dimensions(Box{}) == zero_vec);
-//    CHECK(dimensions(zero_box) == zero_vec);
-//
-//    // "auto box, roll out!" - Optimus Prime
-//    auto box = Box{make_zeroed_vec<L, T>(0, -2), make_zeroed_vec<L, T>(0, +2)};
-//    CHECK(almost_equal(dimensions(box), make_zeroed_vec<L, T>(0, 4)));
-//
-//    if constexpr (L == 3) {
-//        box = Box{Vec{-1, -2, -3}, Vec{3, 2, 1}};
-//        CHECK(almost_equal(dimensions(box), Vec{4}));
-//    }
-//}
 
 } // namespace
