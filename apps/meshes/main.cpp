@@ -2,11 +2,13 @@
 // Copyright (c) 2022 Logan Barnes - All Rights Reserved
 // ///////////////////////////////////////////////////////////////////////////////////////
 
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_DEBUG
+#include <spdlog/spdlog.h>
+
 #include "ltb/app/application_data.hpp"
 #include "ltb/app/glfw_vulkan_imgui_app.hpp"
 
 #include <doctest/doctest.h>
-#include <spdlog/spdlog.h>
 
 class HelloTriangleApp : public ltb::app::GlfwVulkanImguiApp {
 public:
@@ -20,6 +22,8 @@ private:
 };
 
 auto main() -> int {
+    spdlog::set_level(spdlog::level::debug);
+
     // auto extensions = HelloTriangleApp::get_extensions();
     // auto layers     = HelloTriangleApp::get_validation_layers();
 
