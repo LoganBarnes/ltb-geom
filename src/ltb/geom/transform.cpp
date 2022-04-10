@@ -27,8 +27,8 @@ TEST_CASE("[ltb][geom] normals_matrix math check") {
 
         // https://github.com/graphitemaster/normals_revisited
         // (det M)(M-1)^T = (cof M)
-        auto lhs = glm::determinant(m) * glm::transpose(glm::inverse(m));
-        auto rhs = glm::transpose(glm::adjugate(m));
+        [[maybe_unused]] auto lhs = glm::determinant(m) * glm::transpose(glm::inverse(m));
+        [[maybe_unused]] auto rhs = glm::transpose(glm::adjugate(m));
 
         CHECK(glm::all(glm::epsilonEqual(lhs[0], rhs[0], 1e-4f)));
         CHECK(glm::all(glm::epsilonEqual(lhs[1], rhs[1], 1e-4f)));
@@ -45,8 +45,8 @@ TEST_CASE("[ltb][geom] normals_matrix math check") {
 
         // https://github.com/graphitemaster/normals_revisited
         // (det M)(M-1)^T = (cof M)
-        auto lhs = glm::determinant(m) * glm::transpose(glm::inverse(m));
-        auto rhs = glm::transpose(glm::adjugate(m));
+        [[maybe_unused]] auto lhs = glm::determinant(m) * glm::transpose(glm::inverse(m));
+        [[maybe_unused]] auto rhs = glm::transpose(glm::adjugate(m));
 
         CHECK(glm::all(glm::epsilonEqual(lhs[0], rhs[0], 1e-4f)));
         CHECK(glm::all(glm::epsilonEqual(lhs[1], rhs[1], 1e-4f)));
@@ -65,8 +65,8 @@ TEST_CASE("[ltb][geom] normals_matrix math check") {
 
         // https://github.com/graphitemaster/normals_revisited
         // (det M)(M-1)^T = (cof M)
-        auto lhs = glm::determinant(m) * glm::transpose(glm::inverse(m));
-        auto rhs = glm::transpose(glm::adjugate(m));
+        [[maybe_unused]] auto lhs = glm::determinant(m) * glm::transpose(glm::inverse(m));
+        [[maybe_unused]] auto rhs = glm::transpose(glm::adjugate(m));
 
         CHECK(glm::all(glm::epsilonEqual(lhs[0], rhs[0], 1e-4f)));
         CHECK(glm::all(glm::epsilonEqual(lhs[1], rhs[1], 1e-4f)));
