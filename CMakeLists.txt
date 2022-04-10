@@ -49,6 +49,10 @@ if (glm_ADDED)
                                GLM_ENABLE_EXPERIMENTAL
                                GLM_FORCE_EXPLICIT_CTOR
                                )
+    target_include_directories(glm
+                               SYSTEM INTERFACE
+                               $<BUILD_INTERFACE:${glm_SOURCE_DIR}>
+                               )
 endif ()
 
 ##########################
