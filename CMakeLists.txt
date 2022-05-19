@@ -85,14 +85,14 @@ ltb_add_library(
         ${CMAKE_CURRENT_LIST_DIR}/src/ltb/geom/vec.cpp
 )
 add_library(
-        LtbGeom::ltb-geom
+        LtbGeom::LtbGeom
         ALIAS
         ltb-geom
 )
 ltb_target_link_libraries(
         ltb-geom
         PUBLIC
-        LtbUtil::ltb-util
+        LtbUtil::LtbUtil
         glm::glm
 )
 ltb_target_include_directories(

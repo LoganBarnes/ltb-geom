@@ -20,5 +20,5 @@ ltb_create_app(
 target_link_libraries(
         meshes-app
         PRIVATE
-        LtbGeom::ltb-geom
+        LtbGeom::LtbGeom
 )
