@@ -5,36 +5,23 @@ cmake_minimum_required(VERSION 3.21)
 project(LtbGeom VERSION 1.0.0)
 
 # ##############################################################################
-# CMake Package Manager ###
+# Options
 # ##############################################################################
-set(CPM_DOWNLOAD_VERSION 0.35.0)
+option(LTB_GEOM_BUILD_APPS "Build the LTB Geom example applications" OFF)
 
-if(CPM_SOURCE_CACHE)
-    set(CPM_DOWNLOAD_LOCATION
-        "${CPM_SOURCE_CACHE}/cpm/CPM_${CPM_DOWNLOAD_VERSION}.cmake"
-        )
-elseif(DEFINED ENV{CPM_SOURCE_CACHE})
-    set(CPM_DOWNLOAD_LOCATION
-        "$ENV{CPM_SOURCE_CACHE}/cpm/CPM_${CPM_DOWNLOAD_VERSION}.cmake"
-        )
-else()
-    set(CPM_DOWNLOAD_LOCATION
-        "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake"
-        )
+option(LTB_ENABLE_TESTING "Enable LTB Testing" OFF)
+
+if(LTB_ENABLE_TESTING AND NOT BUILD_TESTING)
+    include(CTest)
 endif()
 
-if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
-    message(STATUS "Downloading CPM.cmake to ${CPM_DOWNLOAD_LOCATION}")
-    file(DOWNLOAD
-         https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake
-         ${CPM_DOWNLOAD_LOCATION}
-         )
-endif()
-
-include(${CPM_DOWNLOAD_LOCATION})
+# ##############################################################################
+# CMake Package Manager
+# ##############################################################################
+include(cmake/CPM.cmake)
 
 # ##############################################################################
-# External Packages ###
+# External Packages
 # ##############################################################################
 cpmaddpackage(NAME
               LtbUtil
@@ -71,7 +58,7 @@ if(glm_ADDED)
 endif()
 
 # ##############################################################################
-# LtbGeom::LtbGeom ###
+# LtbGeom::LtbGeom
 # ##############################################################################
 ltb_create_default_targets(LtbGeom
                            src/shapes/meshes/axes_mesh.cpp
@@ -118,7 +105,9 @@ if(TARGET test_LtbGeom)
     target_link_libraries(test_LtbGeom PRIVATE doctest_with_main)
 endif()
 
+# ##############################################################################
 # Applications
+# ##############################################################################
 if(LTB_GEOM_BUILD_APPS OR LTB_BUILD_ALL_APPS)
     include(apps/CMakeLists.cmake)
 endif()
