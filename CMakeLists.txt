@@ -42,7 +42,6 @@ cpmaddpackage(NAME
               DOWNLOAD_ONLY
               TRUE
               )
-cpmaddpackage("gh:TheLartians/PackageProject.cmake@1.6.0")
 
 if(glm_ADDED)
     add_library(glm INTERFACE)

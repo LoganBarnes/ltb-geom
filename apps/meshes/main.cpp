@@ -1,7 +1,7 @@
 // ///////////////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2022 Logan Barnes - All Rights Reserved
 // ///////////////////////////////////////////////////////////////////////////////////////
-#ifdef DOCTEST_CONFIG_DISABLE
+#define DOCTEST_CONFIG_IMPLEMENT
 
 #include "ltb/app/application_data.hpp"
 #include "ltb/app/glfw_vulkan_imgui_app.hpp"
@@ -9,7 +9,11 @@
 #include <doctest/doctest.h>
 #include <spdlog/spdlog.h>
 
-class HelloTriangleApp : public ltb::app::GlfwVulkanImguiApp {
+using namespace ltb;
+
+namespace {
+
+class HelloTriangleApp : public app::GlfwVulkanImguiApp {
 public:
     ~HelloTriangleApp() override = default;
 
@@ -21,8 +25,7 @@ private:
     auto dropped_files(std::vector<std::filesystem::path> const& /*paths*/) -> void override {}
 };
 
-auto main() -> int {
-
+auto run_app() -> int {
     spdlog::set_level(spdlog::level::debug);
 
     // auto extensions = HelloTriangleApp::get_extensions();
@@ -32,7 +35,7 @@ auto main() -> int {
                       .init_window({
                           "VK Playground",
                           {1280, 720},
-                          ltb::app::WindowType::Resizable,
+                          app::WindowType::Resizable,
                           4,
                       })
                       .and_then([](auto* app) { return app->init_vulkan({}); })
@@ -42,13 +45,21 @@ auto main() -> int {
         spdlog::error("{}", result.error().debug_error_message());
         return EXIT_FAILURE;
     }
-
     return EXIT_SUCCESS;
 }
 
-#else
+} // namespace
 
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include <doctest/doctest.h>
+auto main(int argc, char* argv[]) -> int {
+    auto context = doctest::Context{};
 
-#endif
+    context.applyCommandLine(argc, argv);
+
+    auto test_return_code = context.run(); // run
+
+    if (context.shouldExit()) { // important - query flags (and --exit) rely on the user doing this
+        return test_return_code; // propagate the result of the tests
+    }
+
+    return test_return_code + run_app();
+}
